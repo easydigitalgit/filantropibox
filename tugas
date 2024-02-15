@@ -1,0 +1,30 @@
+/* 
+AppName : FilantropiBox
+-------------
+
+*/
+# web Mobile canvaser
+    - auntentikasi (Username : Password)
+    - Dashboard (info profil, daftar mitra, hasil kolektif bulanan, program)
+    - Proses tambah mitra
+        -- form data mitra (biodata mitra, kontak, pekerjaan, keterangan)
+        -- form data box (nomor box, pin map, foto lokasi)
+    - proses kolektif
+        -- form kolektif (nomor box, nominal)
+    
+# web Dashboard admin
+    - auntentikasi (Username : Password)
+    - Dashboard
+    - data program
+    - data petugas
+    - data mitra FilantropiBox
+    - data mitra Penyaluran (perorangan, organisasi)
+    - laporan kolektif (harian, per-tanggal)
+    - laporan Penyaluran
+    - Proses Penyaluran
+        -- nominal Penyaluran
+        -- mitra Penyaluran
+        -- deskripsi Penyaluran
+        -- dokumentasi 
+    - data user (admin, canvaser )
+    - 
