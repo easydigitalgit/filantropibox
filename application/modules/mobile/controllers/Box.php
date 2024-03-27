@@ -116,8 +116,17 @@ class Box extends MX_Controller
         $list = $this->Dmodel->get_mitra_like($keyword);
 
         if ($list->num_rows()) {
+            $data = '';
+            $dataCount = 0;
+            foreach ($list->result() as $field) {
+                $dataCount += 1;
+                $data .= '<li class="list-item"><p class="m-0 size-18 nama_usaha">' . $field->nama_usaha . '</p><span class="m-0" style="color: grey;">' . $field->alamat . '</span><div class="d-none">' . $field->id . '</div></li>';
+                if ($dataCount < $list->num_rows()) {
+                    $data .= '<div class="dividar border-snow my-2"></div>';
+                }
+            }
             $ret['status'] = true;
-            $ret['data'] = $list->result();
+            $ret['data'] = $data;
         } else {
             $ret['status'] = false;
             $ret['data'] = '';

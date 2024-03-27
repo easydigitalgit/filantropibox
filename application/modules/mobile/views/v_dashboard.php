@@ -53,87 +53,13 @@
 </section>
 <!-- End. box__dashboard -->
 
-<section>
-    <!-- Start banner_sliderFull-->
-    <div class="banner_sliderFull" style="margin-top: 12px;">
-        <!-- Swiper -->
-        <div class="swiper-container em-swiperSliderFull">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="--item-inside">
-                        <div class="cover_img">
-                            <img src="<?php echo base_url(); ?>public/mobile/assets/img/program/contoh-program.jpg"
-                                alt="">
-                            <!-- <div
-                                class="text_img position-absolute bottom-0 padding-b-50 padding-l-20 text-left">
-                                <h2 data-swiper-parallax="-300"
-                                    class="size-30 weight-600 color-white text-uppercase mb-1">
-                                    Up to 60% off</h2>
-                                <p data-swiper-parallax="-200" class="size-14 color-white">
-                                    Women Clothes, Shoes,Bags, ACC</p>
-                                <a data-swiper-parallax="-100" href="#"
-                                    class="btn rounded-8 bg-primary color-white size-14 weight-500 min-w-110 h-41 hover:color-white d-inline-flex align-items-center justify-content-center">
-                                    Discover
-                                    <i
-                                        class="tio-chevron_right ml-1 size-16 color-white color-opacity-70"></i>
-                                </a>
-                            </div> -->
-                        </div>
+<section class="mt-3" style="">
+    <div class="swiper margin-l-20 margin-r-20" style="height:200px; overflow-x: hidden; border-radius: 10px;">
+        <div class="swiper-wrapper">
 
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="--item-inside">
-                        <div class="cover_img">
-                            <img src="<?php echo base_url(); ?>public/mobile/assets/img/program/contoh-program-2.png"
-                                alt="">
-                            <!-- <div
-                                class="text_img position-absolute bottom-0 padding-b-50 padding-l-20 text-left">
-                                <h2 data-swiper-parallax="-300"
-                                    class="size-30 weight-600 color-white text-uppercase mb-1">
-                                    Up to 60% off</h2>
-                                <p data-swiper-parallax="-200" class="size-14 color-white">
-                                    Women Clothes, Shoes,Bags, ACC</p>
-                                <a data-swiper-parallax="-100" href="#"
-                                    class="btn rounded-8 bg-primary color-white size-14 weight-500 min-w-110 h-41 hover:color-white d-inline-flex align-items-center justify-content-center">
-                                    Discover
-                                    <i
-                                        class="tio-chevron_right ml-1 size-16 color-white color-opacity-70"></i>
-                                </a>
-                            </div> -->
-                        </div>
-
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="--item-inside">
-                        <div class="cover_img">
-                            <img src="<?php echo base_url(); ?>public/mobile/assets/img/program/contoh-program-3.jpg"
-                                alt="">
-                            <!-- <div
-                                class="text_img position-absolute bottom-0 padding-b-50 padding-l-20 text-left">
-                                <h2 data-swiper-parallax="-300"
-                                    class="size-30 weight-600 color-white text-uppercase mb-1">
-                                    Up to 60% off</h2>
-                                <p data-swiper-parallax="-200" class="size-14 color-white">
-                                    Women Clothes, Shoes,Bags, ACC</p>
-                                <a data-swiper-parallax="-100" href="#"
-                                    class="btn rounded-8 bg-primary color-white size-14 weight-500 min-w-110 h-41 hover:color-white d-inline-flex align-items-center justify-content-center">
-                                    Discover
-                                    <i
-                                        class="tio-chevron_right ml-1 size-16 color-white color-opacity-70"></i>
-                                </a>
-                            </div> -->
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <!-- Add Pagination -->
-            <div class="swiper-pagination"></div>
         </div>
+        <!-- <div class="program-swiper-pagination"></div> -->
     </div>
-    <!-- End. banner_sliderFull -->
 </section>
 
 <section>
@@ -144,7 +70,7 @@
     <div class="em__pkLink emBlock__border bg-white border-t-0">
         <ul class="nav__list mb-0">
             <li>
-                <a href="page-notification.html" class="item-link">
+                <a data-toggle="modal" data-target="#modal_history" class="item-link" id="history_btn">
                     <div class="group">
                         <div class="icon bg-purple">
                             <i class="ri-history-line"></i>
@@ -156,7 +82,7 @@
                     </div>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="page-notification.html" class="item-link">
                     <div class="group">
                         <div class="icon bg-orange">
@@ -183,7 +109,32 @@
                         <i class="tio-chevron_right -arrwo"></i>
                     </div>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </div>
 </section>
+
+<div class="modal transition-bottom screenFull defaultModal mdlladd__rate fade" id="modal_history" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable height-full">
+        <div class="modal-content rounded-0">
+            <div class="modal-header padding-l-20 padding-r-20 justify-content-center">
+                <div class="itemProduct_sm">
+                    <h1 class="size-18 weight-600 color-secondary m-0">Riwayat Kolektif</h1>
+                </div>
+                <div class="absolute right-0 padding-r-20">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="tio-clear"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body p-0">
+                <div class="em__pkLink emBlock__border bg-white border-t-0">
+                    <ul class="nav__list mb-0 history-list">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

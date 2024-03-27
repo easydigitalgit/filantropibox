@@ -1,14 +1,22 @@
 <?php
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') or exit ('No direct script access allowed');
 
 class Lupa_password extends MX_Controller
 {
 
     public function index()
     {
-        $data['konten'] = 'v_lupa_password';
+        $isLogin = $this->session->userdata('isLogin');
+        $level_user = $this->session->userdata('level_user');
 
-        $this->theme->change_password_theme($data);
+        if ($isLogin == 'yes' && $level_user == "canvaser") {
+            $data['konten'] = 'v_lupa_password';
+            $data['libjs'] = ['lupa_password'];
+
+            $this->theme->mobile_dashboard_theme($data);
+        } else {
+            redirect('mobile/login', 'refresh');
+        }
     }
 }

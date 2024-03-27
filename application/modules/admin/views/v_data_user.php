@@ -55,7 +55,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="#" id="form_DataSiswa" method="post">
+                <form action="#" id="form_data_user" method="post">
                     <input class="form-control" type="hidden" value="" name="id" id="id">
                     <div class="mb-3 row">
                         <label for="example-text-input" class="col-md-2 col-form-label">NIK</label>

@@ -23,7 +23,7 @@ class Profil_model extends CI_Model
     {
         $q = $this->db->update('data_user', array('foto' => $foto), array('id' => $id));
 
-        $data['foto'] = 'images/canvaser/' . $foto;
+        $data['foto'] = 'images/user/' . $foto;
         $this->session->set_userdata($data);
 
         return $q;

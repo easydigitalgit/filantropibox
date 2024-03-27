@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') or exit ('No direct script access allowed');
 
 class Login_model extends CI_Model
 {
@@ -10,9 +10,15 @@ class Login_model extends CI_Model
         if ($cekUser->num_rows()) {
             $row = $cekUser->row();
 
+            $data['id_user'] = $row->id;
             $data['username'] = $user;
             $data['level_user'] = $row->level_user;
             $data['isLogin'] = 'yes';
+            if ($row->foto != '') {
+                $data['foto'] = 'images/user/' . $row->foto;
+            } else {
+                $data['foto'] = 'images/user.png';
+            }
 
             $this->session->set_userdata($data);
 

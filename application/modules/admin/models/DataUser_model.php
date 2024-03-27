@@ -79,6 +79,12 @@ class DataUser_model extends CI_Model
     public function edit($data, $id)
     {
         $q = $this->db->update('data_user', $data, array('id' => $id));
+
+        if ($id == $this->session->userdata('id_user')) {
+            $foto = 'images/user/' . $data['foto'];
+            $this->session->set_userdata('foto', $foto);
+        }
+
         return $q;
     }
 

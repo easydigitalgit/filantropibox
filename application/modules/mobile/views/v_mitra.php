@@ -12,11 +12,14 @@
                 <p>Jumlah Mitra</p>
                 <span>92</span>
             </div>
-            <div class="txt" style="margin-left: auto;margin-right: 0;">
-                <button class="btn justify-content-center bg-primary rounded-10 btn__default tambah_btn"
-                    data-toggle="modal" data-target="#modal_mitra">
-                    <span class="text-white" style="">Tambah Mitra</span>
-                </button>
+            <div class="txt ml-auto">
+                <a class="btn bg-primary btn__default tambah_btn" style="width: 140px;" data-toggle="modal"
+                    data-target="#modal_mitra">
+                    <span style="color:white;">Tambah</span>
+                    <div class="icon" style="margin: 0px;">
+                        <i class="tio-chevron_right"></i>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

@@ -32,7 +32,7 @@
                 <li>
                     <a href="<?= site_url('admin/data_mitra_box/index'); ?>" class="waves-effect">
                         <i class='bx bx-building-house'></i>
-                        <span key="t-dashboards">Data Mitra Filantropi Box</span>
+                        <span key="t-dashboards">Data Mitra Box</span>
                     </a>
                 </li>
                 <li>

@@ -94,9 +94,10 @@ class Data_user extends MX_Controller
     public function simpan_data_user()
     {
         $id = $this->input->post('id');
+        $data['nik'] = $this->input->post('nik');
         $data['username'] = $this->input->post('username');
         $data['password'] = $this->input->post('password');
-        $data['tipe_akun'] = $this->input->post('tipe_akun');
+        $data['level_user'] = $this->input->post('level_user');
 
         $user_validation = $this->Dmodel->check_if_user_exist($data, $id);
 

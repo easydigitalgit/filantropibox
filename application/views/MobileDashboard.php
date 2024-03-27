@@ -257,15 +257,12 @@
     <script src="<?php echo base_url(); ?>public/mobile/assets/js/vendor/short-and-sweet.min.js"></script>
     <!-- jquery knob -->
     <script src="<?php echo base_url(); ?>public/mobile/assets/js/vendor/jquery.knob.min.js"></script>
-    <!-- main.js -->
-    <script src="<?php echo base_url(); ?>public/mobile/assets/js/main.js" defer></script>
     <!-- PWA app service registration and works js -->
     <!-- <script src="<?php echo base_url(); ?>public/mobile/assets/js/pwa-services.js"></script> -->
     <!-- leaflet.js v1.9.4 -->
     <script src="<?php echo base_url(); ?>public/plugin/leaflet/leaflet.js"></script>
     <!-- SweetAlert 2 -->
     <script src="<?php echo base_url(); ?>public/plugin/sweetalert2/sweetalert2.min.js"></script>
-
     <!-- libjs -->
     <?php
     if (isset ($libjs)) {
@@ -274,6 +271,7 @@
         }
     }
     ?>
+    <script src="<?php echo base_url(); ?>public/mobile/assets/js/main.js" defer></script>
 </body>
 
 </html>

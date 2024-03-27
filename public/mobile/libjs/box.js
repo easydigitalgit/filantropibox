@@ -81,15 +81,7 @@ function TambahPilihanMitra() {
                 dataType: "JSON",
                 success: function (response) {
                     if (response.status) {
-                        var nama_mitra = '';
-                        for (let i in response.data) {
-                            nama_mitra += '<li class="list-item"><p class="m-0 size-18 nama_usaha">' + response.data[i].nama_usaha + '</p><span class="m-0" style="color: grey;">' + response.data[i].alamat + '</span><div class="d-none">'+ response.data[i].id +'</div></li>';
-                            // nama_mitra += '<li class="list-item">' + response.data[i].nama_usaha + '</li>';
-                            if (i < response.data.length - 1) {
-                                nama_mitra += '<div class="dividar border-snow my-2"></div>';
-                            }
-                        }
-                        list_mitra.append(nama_mitra);
+                        list_mitra.append(response.data);
                         list_mitra.css('display', 'block');
                     } else {
                         list_mitra.hide();

@@ -13,17 +13,27 @@ form_element['input'] = ['#id', '#nik', '#username', '#password'];
 form_element['select'] = ['#level_user'];
 form_element['textarea'] = [];
 form_element['imageInput'] = ['#profil'];
-form_element['imagePreview'] = ['.preview_foto'];
+form_element['imagePreview'] = ['.preview_profil'];
 
 var modal_label = $('#ModalLabel_' + nama_module);
 var dashboard_title = $('.dash-title');
 modal_label.html('Form ' + label_module);
 dashboard_title.html(label_module);
 
-var tipe_akun = ['admin', 'canvaser'];
+var level_user = ['admin', 'canvaser'];
 
 $(document).ready(function () {
     loadTableDataUser(table);
+
+    $(form_element['imageInput'][0]).on('change', function(e){
+        var file = e.target.files[0];
+        var reader = new FileReader();
+    
+        reader.onload = function(e){
+            $(form_element['imagePreview'][0]).attr('src', e.target.result);
+        }
+        reader.readAsDataURL(file);
+    });
 });
 
 function loadTableDataUser(table) {
@@ -68,10 +78,10 @@ $(document).on('click', '.addBtn', function (e) {
         data: "",
         dataType: "JSON",
         success: function (res) {
-            tipe_akun = ['admin', 'canvaser'];
+            level_user = ['admin', 'canvaser'];
             if (res.status) {
-                for (let i in tipe_akun) {
-                    $(form_element['select'][0]).append('<option value="'+tipe_akun[i]+'">'+tipe_akun[i]+'</option>')
+                for (let i in level_user) {
+                    $(form_element['select'][0]).append('<option value="'+level_user[i]+'">'+level_user[i]+'</option>')
                 }
                 $('.saveBtn').html('Tambah');
                 modal_form.modal('show');
@@ -103,11 +113,15 @@ $(document).on('click', '.editBtn', function () {
                 $(form_element['input'][2]).val(res.data.username);
                 $(form_element['input'][3]).val(res.data.password);
 
-                for (let i in tipe_akun) {
-                    $(form_element['select'][0]).prepend('<option value="'+tipe_akun[i]+'">'+tipe_akun[i]+'</option>')
+                for (let i in level_user) {
+                    $(form_element['select'][0]).prepend('<option value="'+level_user[i]+'">'+level_user[i]+'</option>')
                 }
 
-                $(form_element['select'][0]).val(res.data.tipe_akun);
+                if (res.data.foto) {
+                    $(form_element['imagePreview'][0]).attr('src', base_url + 'images/user/' + res.data.foto);
+                }
+
+                $(form_element['select'][0]).val(res.data.level_user);
                 $('.saveBtn').html('Update');
                 modal_form.modal('show');
             } else {
@@ -118,8 +132,8 @@ $(document).on('click', '.editBtn', function () {
 });
 
 $(document).on('click', '.saveBtn', function () {
-    let url = currentClass + '/simpan_user_akun';
-    let formData = new FormData($('#form_AkunPengguna')[0]);
+    let url = currentClass + '/simpan_' + nama_module;
+    let formData = new FormData($(form_id)[0]);
 
     var isEmpty = false;
     
@@ -154,7 +168,7 @@ $(document).on('click', '.saveBtn', function () {
                     icon: "success"
                 });
                 modal_form.modal('hide');
-                loadTableDataProgram(table);
+                loadTableDataUser(table);
             } else {
                 Swal.fire({
                     title: "Gagal!",

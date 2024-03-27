@@ -45,6 +45,42 @@ class Dashboard extends MX_Controller
         echo json_encode($data);
     }
 
+    public function get_program()
+    {
+        $date_now = date('Y-m-d');
+        $query = "SELECT * FROM data_program WHERE start <= ? AND end >= ? AND deleted = '1'";
+        $q = $this->db->query($query, array($date_now, $date_now));
+
+        if ($q->num_rows()) {
+            $ret['status'] = true;
+            $ret['data'] = $q->result();
+        } else {
+            $ret['status'] = false;
+            $ret['data'] = '';
+        }
+
+        echo json_encode($ret);
+    }
+
+    public function get_history()
+    {
+        $id_user = $this->session->userdata("id_user");
+        $query = $this->db->select('c.nama_usaha AS nama, FORMAT(a.jumlah_kolektif, "NO") AS jumlah, a.tanggal_kolektif AS tanggal FROM laporan_kolektif a LEFT JOIN data_box b ON a.id_box = b.id_box LEFT JOIN data_mitra_box c ON b.mitra_id = c.id WHERE id_canvaser = "' . $id_user . '" ORDER BY `tanggal` DESC limit 20;', false)->get();
+
+        if ($query->num_rows()) {
+            // foreach ($query->result() as $field) {
+            //     $data['nama'] = $field->nama;
+            //     $data['jumlah'] = $field->jumlah;
+            //     $data['tanggal'] = $field->tanggal;
+            // }
+            $data['data'] = $query->result();
+            $data['status'] = true;
+        } else {
+            $data['status'] = false;
+        }
+        echo json_encode($data);
+    }
+
 }
 
 /* End of file Dashboard.php */

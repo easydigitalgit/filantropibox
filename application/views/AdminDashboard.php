@@ -23,6 +23,8 @@
     <link href="<?php echo base_url(''); ?>public/admin/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet"
         type="text/css" />
     <link href="<?php echo base_url(''); ?>public/admin/assets/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url(''); ?>public/admin/assets/libs/apexcharts/apexcharts.css" rel="stylesheet"
+        type="text/css" />
     <!-- datatables -->
     <link href="<?php echo base_url(''); ?>public/plugin/bs4-datatable/datatables.min.css" rel="stylesheet"
         type="text/css" />
@@ -148,8 +150,7 @@
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="rounded-circle header-profile-user"
-                                src="<?php echo base_url(''); ?>public/admin/assets/images/users/avatar-1.jpg"
-                                alt="Header Avatar">
+                                src="<?php echo base_url(); ?><?= $this->session->userdata('foto') ?>" alt="">
                             <span class="d-none d-xl-inline-block ms-1" key="t-henry">
                                 <?=
                                     $this->session->userdata('username');
@@ -215,6 +216,7 @@
     <script src="<?php echo base_url(''); ?>public/admin/assets/libs/metismenu/metisMenu.min.js"></script>
     <script src="<?php echo base_url(''); ?>public/admin/assets/libs/simplebar/simplebar.min.js"></script>
     <script src="<?php echo base_url(''); ?>public/admin/assets/libs/node-waves/waves.min.js"></script>
+    <script src="<?php echo base_url(''); ?>public/admin/assets/libs/apexcharts/apexcharts.min.js"></script>
     <script
         src="<?php echo base_url(''); ?>public/admin/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script
@@ -227,7 +229,6 @@
     <!-- Plugins -->
     <script src="<?php echo base_url(''); ?>public/plugin/chart.js/dist/chart.min.js"></script>
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtSAR45TFgZjOs4nBFFZnII-6mMHLfSYI"></script> -->
-
     <!-- App js -->
     <script src="<?php echo base_url(''); ?>public/admin/assets/js/app.js"></script>
     <!-- <script src="<?php echo base_url(''); ?>public/admin/assets/js/ajax.js"></script> -->
