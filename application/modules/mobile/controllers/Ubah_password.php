@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Ubah_password extends MX_Controller
 {
@@ -9,10 +9,11 @@ class Ubah_password extends MX_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('UbahPassword_model', 'Dmodel');
-
+        $this->load->model('Mobile_model', 'AM');
+        $this->AM->user_login() ? '' : $this->AM->logout();
     }
 
+    public $table = 'data_user';
 
     public function index()
     {
@@ -33,12 +34,12 @@ class Ubah_password extends MX_Controller
     {
         $id = $this->session->userdata('id_user');
         $current_password = $this->input->post('current_password');
-        $new_password = $this->input->post('new_password');
+        $data['password'] = $this->input->post('new_password');
 
-        $user_validation = $this->Dmodel->check_if_user_exists($id, $current_password);
+        $user_validation = $this->AM->check_if_user_exists($id, $current_password);
 
         if ($user_validation->num_rows()) {
-            $q = $this->Dmodel->simpan($id, $new_password);
+            $q = $this->AM->edit_data($this->table, $data, $id);
             if ($q) {
                 $ret['status'] = true;
                 $ret['msg'] = 'Password Berhasil Diubah';

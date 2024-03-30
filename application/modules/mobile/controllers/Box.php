@@ -1,33 +1,26 @@
 <?php
 
 
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Box extends MX_Controller
 {
-
-
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Box_model', "Dmodel");
-
+        $this->load->model('Mobile_model', 'AM');
+        $this->AM->user_login() ? '' : $this->AM->logout();
     }
 
+    public $table = 'data_box';
+    public $table2 = 'laporan_kolektif';
 
     public function index()
     {
-        $isLogin = $this->session->userdata('isLogin');
-        $level_user = $this->session->userdata('level_user');
+        $data['konten'] = 'v_box';
+        $data['libjs'] = ['box'];
 
-        if ($isLogin == 'yes' && $level_user == "canvaser") {
-            $data['konten'] = 'v_box';
-            $data['libjs'] = ['box'];
-
-            $this->theme->mobile_dashboard_theme($data);
-        } else {
-            redirect('mobile/login', 'refresh');
-        }
+        $this->theme->mobile_dashboard_theme($data);
     }
 
     public function lokasi_mitra()
@@ -53,7 +46,7 @@ class Box extends MX_Controller
             for ($i = 1; $i <= $jumlah_box; $i++) {
                 $data['id_box'] = $this->input->post('box_' . $i);
 
-                if (!empty ($_FILES['foto_box_' . $i])) {
+                if (!empty($_FILES['foto_box_' . $i])) {
                     $filename = 'img_' . uniqid();
                     $upload_foto = $this->_upload_images('foto_box_' . $i, $filename, $imageFolder);
                     if ($upload_foto['status']) {
@@ -61,13 +54,13 @@ class Box extends MX_Controller
                     }
                 }
 
-                $data_validation = $this->Dmodel->check_if_box_exist($data);
+                $data_validation = $this->AM->check_if_box_exist($data['id_box']);
 
                 if ($data_validation->num_rows()) {
                     $ret['status'] = false;
                     $ret['msg'] = 'Data sudah ada!';
                 } else {
-                    $q = $this->Dmodel->tambah($data);
+                    $q = $this->AM->tambah_data($this->table, $data);
                     if ($q) {
                         $ret['status'] = true;
                         $ret['msg'] = 'Data berhasil ditambah!';
@@ -93,10 +86,10 @@ class Box extends MX_Controller
         $data['tanggal_kolektif'] = date("Y-m-d");
         $data['keterangan'] = $this->input->post('keterangan');
 
-        $data_validation = $this->Dmodel->check_if_box_exist($data);
+        $data_validation = $this->AM->check_if_box_exist($data['id_box']);
 
         if ($data_validation->num_rows()) {
-            $q = $this->Dmodel->setor($data);
+            $q = $this->AM->tambah_data($this->table2, $data);
             if ($q) {
                 $ret['status'] = true;
                 $ret['msg'] = 'Data berhasil ditambah!';
@@ -113,7 +106,7 @@ class Box extends MX_Controller
 
     public function tambah_pilihan_mitra($keyword)
     {
-        $list = $this->Dmodel->get_mitra_like($keyword);
+        $list = $this->AM->get_mitra_like($keyword);
 
         if ($list->num_rows()) {
             $data = '';

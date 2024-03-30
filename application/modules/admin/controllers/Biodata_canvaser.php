@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Biodata_canvaser extends MX_Controller
 {
@@ -8,23 +8,18 @@ class Biodata_canvaser extends MX_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('BiodataCanvaser_model', 'Dmodel');
-
+        $this->load->model('Admin_model', 'AM');
+        $this->AM->user_login() ? '' : $this->AM->logout();
     }
+
+    public $table = 'biodata_canvaser';
 
     public function index()
     {
-        $isLogin = $this->session->userdata('isLogin');
-        $level_user = $this->session->userdata('level_user');
-
-        if ($isLogin == 'yes' && $level_user == "admin") {
-            $data['konten'] = 'v_biodata_canvaser';
-            $data['libjs'] = 'biodata_canvaser';
-            $data['addbtn'] = addbtn();
-            $this->theme->admin_dashboard_theme($data);
-        } else {
-            redirect('admin/login', 'refresh');
-        }
+        $data['konten'] = 'v_biodata_canvaser';
+        $data['libjs'] = 'biodata_canvaser';
+        $data['addbtn'] = addbtn();
+        $this->theme->admin_dashboard_theme($data);
     }
 
     public function table_biodata_canvaser()
@@ -35,7 +30,7 @@ class Biodata_canvaser extends MX_Controller
         $order = array('id_akun' => 'asc');
 
         if ($this->input->is_ajax_request() == true) {
-            $list = $this->Dmodel->get_datatables($table, $column_order, $column_search, $order);
+            $list = $this->AM->get_datatables($table, $column_order, $column_search, $order);
             $data = array();
             $no = $_POST['start'];
             foreach ($list as $field) {
@@ -57,15 +52,15 @@ class Biodata_canvaser extends MX_Controller
 
             $output = array(
                 "draw" => $_POST['draw'],
-                "recordsTotal" => $this->Dmodel->count_all(),
-                "recordsFiltered" => $this->Dmodel->count_filtered(),
+                "recordsTotal" => $this->AM->count_all(),
+                "recordsFiltered" => $this->AM->count_filtered(),
                 "addbtn" => addbtn(),
                 "data" => $data,
             );
             //output dalam format JSON
             echo json_encode($output);
         } else {
-            exit ('Maaf data tidak bisa ditampilkan');
+            exit('Maaf data tidak bisa ditampilkan');
         }
     }
 
@@ -78,7 +73,7 @@ class Biodata_canvaser extends MX_Controller
 
     public function edit_biodata_canvaser($id = 0)
     {
-        $q = $this->Dmodel->get_biodata_by_id($id);
+        $q = $this->AM->get_data_by_id($this->table, $id);
         if ($q->num_rows()) {
             $ret['status'] = true;
             $ret['data'] = $q->row();
@@ -98,8 +93,8 @@ class Biodata_canvaser extends MX_Controller
         $data['email'] = $this->input->post('email');
         $data['alamat'] = $this->input->post('alamat');
 
-        $biodata_validation = $this->Dmodel->check_if_biodata_exist($data, $id);
-        $check_canvaser = $this->Dmodel->get_canvaser_by_id($data['id_akun']);
+        $biodata_validation = $this->AM->check_if_biodata_exist($data, $id);
+        $check_canvaser = $this->AM->get_data_by_id($this->table, $data['id_akun']);
 
         if ($check_canvaser->num_rows()) {
             if ($biodata_validation->num_rows()) {
@@ -107,7 +102,7 @@ class Biodata_canvaser extends MX_Controller
                 $ret['msg'] = 'Data sudah ada!';
             } else {
                 if ($id) {
-                    $q = $this->Dmodel->edit($data, $id);
+                    $q = $this->AM->edit_data($this->table, $data, $id);
                     if ($q) {
                         $ret['status'] = true;
                         $ret['msg'] = 'Data berhasil diubah!';
@@ -116,7 +111,7 @@ class Biodata_canvaser extends MX_Controller
                         $ret['msg'] = 'Data gagal diubah!';
                     }
                 } else {
-                    $q = $this->Dmodel->tambah($data);
+                    $q = $this->AM->tambah_data($this->table, $data);
                     if ($q) {
                         $ret['status'] = true;
                         $ret['msg'] = 'Data berhasil ditambah!';
@@ -135,7 +130,7 @@ class Biodata_canvaser extends MX_Controller
 
     public function hapus_biodata_canvaser($id)
     {
-        $q = $this->Dmodel->hapus($id);
+        $q = $this->AM->hapus_data($this->table, $id);
         if ($q) {
             $ret['status'] = true;
             $ret['msg'] = 'Data berhasil dihapus';

@@ -67,23 +67,6 @@
 
     <div id="wrapper">
         <div id="content">
-            <!-- Start main_haeder -->
-            <!-- <header class="main_haeder header-sticky multi_item">
-                <div class="em_side_right">
-                    <a class="rounded-circle d-flex align-items-center text-decoration-none" href="app-pages.html">
-                        <i class="tio-chevron_left size-24 color-text"></i>
-                        <span class="color-text size-14">Back</span>
-                    </a>
-                </div>
-                <div class="title_page">
-                    <span class="page_name">
-
-                    </span>
-                </div>
-
-            </header> -->
-            <!-- End.main_haeder -->
-
             <section class="em__signTypeOne padding-t-50">
                 <div class="logo">
                     <h1>Sign in to</h1>
@@ -116,15 +99,13 @@
                         </div>
                     </form>
                     <div id="login-validasi" class="text-center"></div>
-                    <a href="<?= site_url('lupa_password'); ?>">Lupa Password?</a>
+                    <a href="<?= site_url('mobile/lupa_password'); ?>">Lupa Password?</a>
                 </div>
                 <div class="em__footer">
                     <a id="btnLogin" class="btn bg-primary color-white justify-content-center">Masuk</a>
                 </div>
             </section>
-
         </div>
-
 
         <!-- Start searchMenu__hdr -->
         <section class="searchMenu__hdr">

@@ -1,21 +1,18 @@
 <?php
 
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Admin extends MX_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Admin_model', 'AM');
+        $this->AM->user_login() ? '' : $this->AM->logout();
+    }
 
     public function index()
     {
-        $isLogin = $this->session->userdata('isLogin');
-        $level_user = $this->session->userdata('level_user');
-
-        if ($isLogin == 'yes' && $level_user == "admin") {
-            $data['konten'] = 'v_dashboard';
-
-            $this->theme->admin_dashboard_theme($data);
-        } else {
-            redirect('admin/login', 'refresh');
-        }
+        redirect('admin/dashboard', 'refresh');
     }
 }

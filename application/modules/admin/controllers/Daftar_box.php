@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Daftar_box extends MX_Controller
 {
@@ -9,26 +9,19 @@ class Daftar_box extends MX_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('DaftarBox_model', 'Dmodel');
-
+        $this->load->model('Admin_model', 'AM');
+        $this->AM->user_login() ? '' : $this->AM->logout();
     }
 
+    public $table = 'data_box';
 
     public function index()
     {
-        $isLogin = $this->session->userdata('isLogin');
-        $level_user = $this->session->userdata('level_user');
+        $data['konten'] = 'v_daftar_box';
+        $data['libjs'] = 'daftar_box';
+        $data['addbtn'] = addbtn();
 
-        if ($isLogin == 'yes' && $level_user == "admin") {
-
-            $data['konten'] = 'v_daftar_box';
-            $data['libjs'] = 'daftar_box';
-            $data['addbtn'] = addbtn();
-
-            $this->theme->admin_dashboard_theme($data);
-        } else {
-            redirect('admin/login', 'refresh');
-        }
+        $this->theme->admin_dashboard_theme($data);
     }
 
     public function table_daftar_box()
@@ -39,7 +32,7 @@ class Daftar_box extends MX_Controller
         $order = array('mitra_id' => 'asc');
 
         if ($this->input->is_ajax_request() == true) {
-            $list = $this->Dmodel->get_datatables($table, $column_order, $column_search, $order);
+            $list = $this->AM->get_datatables($table, $column_order, $column_search, $order);
             $data = array();
             $no = $_POST['start'];
             foreach ($list as $field) {
@@ -61,15 +54,15 @@ class Daftar_box extends MX_Controller
 
             $output = array(
                 "draw" => $_POST['draw'],
-                "recordsTotal" => $this->Dmodel->count_all(),
-                "recordsFiltered" => $this->Dmodel->count_filtered(),
+                "recordsTotal" => $this->AM->count_all(),
+                "recordsFiltered" => $this->AM->count_filtered(),
                 "addbtn" => addbtn(),
                 "data" => $data,
             );
             //output dalam format JSON
             echo json_encode($output);
         } else {
-            exit ('Maaf data tidak bisa ditampilkan');
+            exit('Maaf data tidak bisa ditampilkan');
         }
     }
 
@@ -82,7 +75,7 @@ class Daftar_box extends MX_Controller
 
     public function edit_daftar_box($id = 0)
     {
-        $q = $this->Dmodel->get_box_by_id($id);
+        $q = $this->AM->get_data_by_id($this->table, $id);
         if ($q->num_rows()) {
             $ret['status'] = true;
             $ret['data'] = $q->row();
@@ -105,14 +98,14 @@ class Daftar_box extends MX_Controller
 
         $imageFolder = "daftar_box";
 
-        $data_validation = $this->Dmodel->check_if_box_exist($data, $id);
+        $data_validation = $this->AM->check_if_box_exist($data, $id);
 
         if ($data_validation->num_rows()) {
             $ret['status'] = false;
             $ret['msg'] = 'Data Box sudah ada!';
         } else {
 
-            if (!empty ($_FILES['foto_box'])) {
+            if (!empty($_FILES['foto_box'])) {
                 $filename = 'img_' . (substr('00000', strval(strlen($id))) . $id);
                 $upload_foto = $this->_upload_images('foto_box', $filename, $imageFolder);
                 if ($upload_foto['status']) {
@@ -121,7 +114,7 @@ class Daftar_box extends MX_Controller
             }
 
             if ($id) {
-                $q = $this->Dmodel->edit($data, $id);
+                $q = $this->AM->edit_data($this->table, $data, $id);
                 if ($q) {
                     $ret['status'] = true;
                     $ret['msg'] = 'Data Box berhasil diubah!';
@@ -130,7 +123,7 @@ class Daftar_box extends MX_Controller
                     $ret['msg'] = 'Data Box gagal diubah!';
                 }
             } else {
-                $q = $this->Dmodel->tambah($data);
+                $q = $this->AM->tambah_data($this->table, $data);
                 if ($q) {
                     $ret['status'] = true;
                     $ret['msg'] = 'Data Box berhasil ditambah!';
@@ -145,7 +138,7 @@ class Daftar_box extends MX_Controller
 
     public function hapus_daftar_box($id)
     {
-        $q = $this->Dmodel->hapus($id);
+        $q = $this->AM->hapus_data($this->table, $id);
         if ($q) {
             $ret['status'] = true;
             $ret['msg'] = 'Data Box berhasil dihapus';

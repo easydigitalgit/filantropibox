@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Data_user extends MX_Controller
 {
@@ -8,8 +8,11 @@ class Data_user extends MX_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('DataUser_model', 'Dmodel');
+        $this->load->model('Admin_model', 'AM');
+        $this->AM->user_login() ? '' : $this->AM->logout();
     }
+
+    public $table = 'data_user';
 
     public function index()
     {
@@ -35,7 +38,7 @@ class Data_user extends MX_Controller
         $order = array('nik' => 'asc');
 
         if ($this->input->is_ajax_request() == true) {
-            $list = $this->Dmodel->get_datatables($table, $column_order, $column_search, $order);
+            $list = $this->AM->get_datatables($table, $column_order, $column_search, $order);
             $data = array();
             $no = $_POST['start'];
             foreach ($list as $field) {
@@ -59,15 +62,15 @@ class Data_user extends MX_Controller
 
             $output = array(
                 "draw" => $_POST['draw'],
-                "recordsTotal" => $this->Dmodel->count_all(),
-                "recordsFiltered" => $this->Dmodel->count_filtered(),
+                "recordsTotal" => $this->AM->count_all(),
+                "recordsFiltered" => $this->AM->count_filtered(),
                 "addbtn" => addbtn(),
                 "data" => $data,
             );
             //output dalam format JSON
             echo json_encode($output);
         } else {
-            exit ('Maaf data tidak bisa ditampilkan');
+            exit('Maaf data tidak bisa ditampilkan');
         }
     }
 
@@ -80,7 +83,7 @@ class Data_user extends MX_Controller
 
     public function edit_data_user($id)
     {
-        $q = $this->Dmodel->get_user_by_id($id);
+        $q = $this->AM->get_data_by_id($this->table, $id);
         if ($q->num_rows()) {
             $ret['status'] = true;
             $ret['data'] = $q->row();
@@ -99,14 +102,14 @@ class Data_user extends MX_Controller
         $data['password'] = $this->input->post('password');
         $data['level_user'] = $this->input->post('level_user');
 
-        $user_validation = $this->Dmodel->check_if_user_exist($data, $id);
+        $user_validation = $this->AM->check_if_user_exist($data, $id);
 
         if ($user_validation->num_rows()) {
             $ret['status'] = false;
             $ret['msg'] = 'Akun sudah ada!';
         } else {
             $imageFolder = "user";
-            if (!empty ($_FILES['profil'])) {
+            if (!empty($_FILES['profil'])) {
                 $filename = 'img_' . $id;
                 $upload_foto = $this->_upload_images('profil', $filename, $imageFolder);
                 if ($upload_foto['status']) {
@@ -115,7 +118,7 @@ class Data_user extends MX_Controller
             }
 
             if ($id) {
-                $q = $this->Dmodel->edit($data, $id);
+                $q = $this->AM->edit_data($this->table, $data, $id);
                 if ($q) {
                     $ret['status'] = true;
                     $ret['msg'] = 'Akun berhasil diubah!';
@@ -124,7 +127,7 @@ class Data_user extends MX_Controller
                     $ret['msg'] = 'Akun gagal diubah!';
                 }
             } else {
-                $q = $this->Dmodel->tambah($data);
+                $q = $this->AM->tambah_data($this->table, $data);
                 if ($q) {
                     $ret['status'] = true;
                     $ret['msg'] = 'Akun berhasil ditambah!';
@@ -139,7 +142,7 @@ class Data_user extends MX_Controller
 
     public function hapus_data_user($id)
     {
-        $q = $this->Dmodel->hapus($id);
+        $q = $this->AM->hapus_data($this->table, $id, false);
         if ($q) {
             $ret['status'] = true;
             $ret['msg'] = 'Akun telah dihapus!';

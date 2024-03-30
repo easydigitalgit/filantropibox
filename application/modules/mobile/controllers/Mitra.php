@@ -1,14 +1,18 @@
 <?php
 
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mitra extends MX_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Mitra_model', "Dmodel");
+        $this->load->model('Mobile_model', 'AM');
+        $this->AM->user_login() ? '' : $this->AM->logout();
     }
+
+    public $table = 'data_mitra_box';
+    public $table2 = 'data_box';
 
     public function index()
     {
@@ -50,13 +54,13 @@ class Mitra extends MX_Controller
 
         $imageFolder = "mitra_box";
 
-        $data_validation = $this->Dmodel->check_if_mitra_exist($data);
+        $data_validation = $this->AM->check_if_mitra_exist($data);
 
         if ($data_validation->num_rows()) {
             $ret['status'] = false;
             $ret['msg'] = 'Mitra sudah ada!';
         } else {
-            if (!empty ($_FILES['foto_usaha'])) {
+            if (!empty($_FILES['foto_usaha'])) {
                 $filename = 'img_' . uniqid();
                 $upload_foto = $this->_upload_images('foto_usaha', $filename, $imageFolder);
                 if ($upload_foto['status']) {
@@ -64,7 +68,7 @@ class Mitra extends MX_Controller
                 }
             }
 
-            if (!empty ($_FILES['foto_penanggung_jawab'])) {
+            if (!empty($_FILES['foto_penanggung_jawab'])) {
                 $filename = 'img_' . uniqid();
                 $upload_foto = $this->_upload_images('foto_penanggung_jawab', $filename, $imageFolder);
                 if ($upload_foto['status']) {
@@ -72,9 +76,9 @@ class Mitra extends MX_Controller
                 }
             }
 
-            $q = $this->Dmodel->tambah_mitra($data);
+            $q = $this->AM->tambah_data($this->table, $data);
             if ($q) {
-                $mitra_validation = $this->Dmodel->check_if_mitra_exist($data);
+                $mitra_validation = $this->AM->check_if_mitra_exist($data);
                 if ($mitra_validation->num_rows()) {
                     $row = $mitra_validation->row();
                     $ret = $this->tambah_box($jumlah_box, $row->id);
@@ -95,7 +99,7 @@ class Mitra extends MX_Controller
         for ($i = 1; $i <= $jumlah_box; $i++) {
             $data['id_box'] = $this->input->post('box_' . $i);
 
-            if (!empty ($_FILES['foto_box_' . $i])) {
+            if (!empty($_FILES['foto_box_' . $i])) {
                 $filename = 'img_' . uniqid();
                 $upload_foto = $this->_upload_images('foto_box_' . $i, $filename, $imageFolder);
                 if ($upload_foto['status']) {
@@ -103,13 +107,13 @@ class Mitra extends MX_Controller
                 }
             }
 
-            $data_validation = $this->Dmodel->check_if_box_exist($data['id_box']);
+            $data_validation = $this->AM->check_if_box_exist($data['id_box']);
 
             if ($data_validation->num_rows()) {
                 $ret['status'] = false;
                 $ret['msg'] = 'Data sudah ada!';
             } else {
-                $q = $this->Dmodel->tambah_box($data);
+                $q = $this->AM->tambah_box($this->table2, $data);
                 if ($q) {
                     $ret['status'] = true;
                     $ret['msg'] = 'Mitra berhasil ditambah!';

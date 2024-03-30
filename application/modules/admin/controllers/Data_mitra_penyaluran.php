@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Data_mitra_penyaluran extends MX_Controller
 {
@@ -9,26 +9,19 @@ class Data_mitra_penyaluran extends MX_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('DataMitraPenyaluran_model', 'Dmodel');
-
+        $this->load->model('Admin_model', 'AM');
+        $this->AM->user_login() ? '' : $this->AM->logout();
     }
 
+    public $table = 'data_mitra_penyaluran';
 
     public function index()
     {
-        $isLogin = $this->session->userdata('isLogin');
-        $level_user = $this->session->userdata('level_user');
+        $data['konten'] = 'v_data_mitra_penyaluran';
+        $data['libjs'] = 'data_mitra_penyaluran';
+        $data['addbtn'] = addbtn();
 
-        if ($isLogin == 'yes' && $level_user == "admin") {
-
-            $data['konten'] = 'v_data_mitra_penyaluran';
-            $data['libjs'] = 'data_mitra_penyaluran';
-            $data['addbtn'] = addbtn();
-
-            $this->theme->admin_dashboard_theme($data);
-        } else {
-            redirect('admin/login', 'refresh');
-        }
+        $this->theme->admin_dashboard_theme($data);
     }
 
     public function table_data_mitra_penyaluran()
@@ -39,7 +32,7 @@ class Data_mitra_penyaluran extends MX_Controller
         $order = array('nama_mitra' => 'asc');
 
         if ($this->input->is_ajax_request() == true) {
-            $list = $this->Dmodel->get_datatables($table, $column_order, $column_search, $order);
+            $list = $this->AM->get_datatables($table, $column_order, $column_search, $order);
             $data = array();
             $no = $_POST['start'];
             foreach ($list as $field) {
@@ -64,15 +57,15 @@ class Data_mitra_penyaluran extends MX_Controller
 
             $output = array(
                 "draw" => $_POST['draw'],
-                "recordsTotal" => $this->Dmodel->count_all(),
-                "recordsFiltered" => $this->Dmodel->count_filtered(),
+                "recordsTotal" => $this->AM->count_all(),
+                "recordsFiltered" => $this->AM->count_filtered(),
                 "addbtn" => addbtn(),
                 "data" => $data,
             );
             //output dalam format JSON
             echo json_encode($output);
         } else {
-            exit ('Maaf data tidak bisa ditampilkan');
+            exit('Maaf data tidak bisa ditampilkan');
         }
     }
 
@@ -85,7 +78,7 @@ class Data_mitra_penyaluran extends MX_Controller
 
     public function edit_data_mitra_penyaluran($id = 0)
     {
-        $q = $this->Dmodel->get_mitra_penyaluran_by_id($id);
+        $q = $this->AM->get_data_by_id($this->table, $id);
         if ($q->num_rows()) {
             $ret['status'] = true;
             $ret['data'] = $q->row();
@@ -115,7 +108,7 @@ class Data_mitra_penyaluran extends MX_Controller
 
             $imageFolder = "mitra_penyaluran";
 
-            if (!empty ($_FILES['foto_mitra'])) {
+            if (!empty($_FILES['foto_mitra'])) {
                 $filename = 'img_' . uniqid();
                 $upload_foto = $this->_upload_images('foto_mitra', $filename, $imageFolder);
                 if ($upload_foto['status']) {
@@ -123,7 +116,7 @@ class Data_mitra_penyaluran extends MX_Controller
                 }
             }
 
-            if (!empty ($_FILES['foto_lokasi'])) {
+            if (!empty($_FILES['foto_lokasi'])) {
                 $filename = 'img_' . uniqid();
                 $upload_foto = $this->_upload_images('foto_lokasi', $filename, $imageFolder);
                 if ($upload_foto['status']) {
@@ -132,14 +125,14 @@ class Data_mitra_penyaluran extends MX_Controller
             }
         }
 
-        $guru_validation = $this->Dmodel->check_if_mitra_penyaluran_exist($data, $id);
+        $guru_validation = $this->AM->check_if_mitra_penyaluran_exist($data, $id);
 
         if ($guru_validation->num_rows()) {
             $ret['status'] = false;
             $ret['msg'] = 'Data sudah ada!';
         } else {
             if ($id) {
-                $q = $this->Dmodel->edit($data, $id);
+                $q = $this->AM->edit_data($this->table, $data, $id);
                 if ($q) {
                     $ret['status'] = true;
                     $ret['msg'] = 'Data berhasil diubah!';
@@ -148,7 +141,7 @@ class Data_mitra_penyaluran extends MX_Controller
                     $ret['msg'] = 'Data gagal diubah!';
                 }
             } else {
-                $q = $this->Dmodel->tambah($data);
+                $q = $this->AM->tambah_data($this->table, $data);
                 if ($q) {
                     $ret['status'] = true;
                     $ret['msg'] = 'Data berhasil ditambah!';
@@ -163,7 +156,7 @@ class Data_mitra_penyaluran extends MX_Controller
 
     public function hapus_data_mitra_penyaluran($id)
     {
-        $q = $this->Dmodel->hapus($id);
+        $q = $this->AM->hapus_data($this->table, $id, false);
         if ($q) {
             $ret['status'] = true;
             $ret['msg'] = 'Data berhasil dihapus';

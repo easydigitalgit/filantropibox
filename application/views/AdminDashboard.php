@@ -165,7 +165,7 @@
                                     class="bx bx-wrench font-size-16 align-middle me-1"></i> <span
                                     key="t-settings">Settings</span></a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="<?= site_url('admin/login/logout'); ?>"><i
+                            <a class="dropdown-item text-danger" href="<?= site_url('auth/login/logout'); ?>"><i
                                     class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
                                     key="t-logout">Logout</span></a>
                         </div>
@@ -181,11 +181,11 @@
             </div>
         </header>
         <!-- ========== Left Sidebar Start ========== -->
-        <?php isset ($menu) ? $this->load->view($menu) : ''; ?>
+        <?php isset($menu) ? $this->load->view($menu) : ''; ?>
         <!-- Left Sidebar End -->
 
         <div class="main-content">
-            <?php isset ($konten) ? $this->load->view($konten) : ''; ?>
+            <?php isset($konten) ? $this->load->view($konten) : ''; ?>
         </div>
 
         <footer class="footer">
@@ -232,10 +232,10 @@
     <!-- App js -->
     <script src="<?php echo base_url(''); ?>public/admin/assets/js/app.js"></script>
     <!-- <script src="<?php echo base_url(''); ?>public/admin/assets/js/ajax.js"></script> -->
-    <?= isset ($libjs) ? '<script src="' . base_url('') . 'public/admin/libjs/' . $libjs . '.js"></script>' : '' ?>
+    <?= isset($libjs) ? '<script src="' . base_url('') . 'public/admin/libjs/' . $libjs . '.js"></script>' : '' ?>
 
     <?php
-    if (isset ($libs)) {
+    if (isset($libs)) {
         foreach ($libs as $lib) {
             echo '<script src="' . base_url() . 'public/admin/assets/libs/' . $lib . '/' . $lib . '.min.js"></script>';
         }

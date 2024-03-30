@@ -171,7 +171,7 @@
                     </div>
                 </div>
                 <div class="em_side_right">
-                    <a href="<?= site_url('mobile/login/logout'); ?>"
+                    <a href="<?= site_url('auth/login/logout'); ?>"
                         class="link__forgot d-block size-14 color-primary text-decoration-none hover:color-secondary transition-all">
                         Sign out
                     </a>
@@ -180,11 +180,11 @@
             <!-- End.main_haeder -->
 
             <!-- Start Content -->
-            <?php isset ($konten) ? $this->load->view($konten) : ''; ?>
+            <?php isset($konten) ? $this->load->view($konten) : ''; ?>
             <!-- End Content -->
         </div>
         <!-- Start em_main_footer -->
-        <?php isset ($menu) ? $this->load->view($menu) : ''; ?>
+        <?php isset($menu) ? $this->load->view($menu) : ''; ?>
         <!-- End. em_main_footer -->
 
         <!-- Modal Buttons Share -->
@@ -265,7 +265,7 @@
     <script src="<?php echo base_url(); ?>public/plugin/sweetalert2/sweetalert2.min.js"></script>
     <!-- libjs -->
     <?php
-    if (isset ($libjs)) {
+    if (isset($libjs)) {
         foreach ($libjs as $lib) {
             echo '<script src="' . base_url() . 'public/mobile/libjs/' . $lib . '.js"></script>';
         }

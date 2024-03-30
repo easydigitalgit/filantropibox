@@ -17,7 +17,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <?= isset ($addbtn) ? $addbtn : ''; ?>
+                        <?= isset($addbtn) ? $addbtn : ''; ?>
                         <table id="table_laporan_kolektif" class="table table-striped table-bordered"
                             style="width:100%;">
                             <thead>
@@ -84,7 +84,8 @@
                     <div class="mb-3 row">
                         <label for="example-text-input" class="col-md-2 col-form-label">Keterangan</label>
                         <div class="col-md-10">
-                            <input class="form-control opsional" type="date" value="" name="keterangan" id="keterangan">
+                            <textarea class="form-control opsional" value="" name="keterangan"
+                                id="keterangan"></textarea>
                         </div>
                     </div>
                 </form>

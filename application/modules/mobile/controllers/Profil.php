@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Profil extends MX_Controller
 {
@@ -8,9 +8,11 @@ class Profil extends MX_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Profil_model', 'Dmodel');
+        $this->load->model('Mobile_model', 'AM');
+        $this->AM->user_login() ? '' : $this->AM->logout();
     }
 
+    public $table = 'biodata_canvaser';
 
     public function index()
     {
@@ -30,7 +32,7 @@ class Profil extends MX_Controller
     public function get_profil()
     {
         $id = $this->session->userdata('id_user');
-        $q = $this->Dmodel->get_biodata_by_id($id);
+        $q = $this->AM->get_biodata_by_id($id);
 
         if ($q->num_rows()) {
             $ret['status'] = true;
@@ -54,21 +56,21 @@ class Profil extends MX_Controller
 
         $imageFolder = "canvaser";
 
-        if (!empty ($_FILES['profil'])) {
+        if (!empty($_FILES['profil'])) {
             $filename = 'img_' . $id;
             $upload_foto = $this->_upload_images('profil', $filename, $imageFolder);
             if ($upload_foto['status']) {
                 $foto = $upload_foto['filename'];
-                $this->Dmodel->insert_foto($foto, $id);
+                $this->AM->tambah_foto($foto, $id);
             }
         }
 
-        $biodata_validation = $this->Dmodel->check_if_biodata_exist($id);
+        $biodata_validation = $this->AM->check_if_biodata_exist($id);
 
         if ($biodata_validation->num_rows()) {
-            $q = $this->Dmodel->edit($data, $id);
+            $q = $this->AM->edit_data($this->table, $data, $id, 'id_akun');
         } else {
-            $q = $this->Dmodel->tambah($data);
+            $q = $this->AM->tambah_data($this->table, $data);
         }
 
         if ($q) {

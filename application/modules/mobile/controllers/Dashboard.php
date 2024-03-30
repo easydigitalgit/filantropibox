@@ -1,23 +1,24 @@
 <?php
 
-defined('BASEPATH') or exit ('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Dashboard extends MX_Controller
 {
 
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Mobile_model', 'AM');
+        $this->AM->user_login() ? '' : $this->AM->logout();
+    }
+
     public function index()
     {
-        $isLogin = $this->session->userdata('isLogin');
-        $level_user = $this->session->userdata('level_user');
+        $data['konten'] = 'v_dashboard';
+        $data['libjs'] = ['dashboard'];
 
-        if ($isLogin == 'yes' && $level_user == "canvaser") {
-            $data['konten'] = 'v_dashboard';
-            $data['libjs'] = ['dashboard'];
-
-            $this->theme->mobile_dashboard_theme($data);
-        } else {
-            redirect('mobile/login', 'refresh');
-        }
+        $this->theme->mobile_dashboard_theme($data);
     }
 
     public function get_dashboard_data()

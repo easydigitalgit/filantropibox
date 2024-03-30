@@ -116,7 +116,7 @@
     <script src="<?php echo base_url(''); ?>public/admin/assets/js/app.js"></script>
 
     <!-- libjs -->
-    <?= isset ($libjs) ? '<script src="' . base_url('') . 'public/admin/libjs/' . $libjs . '"></script>' : '' ?>
+    <?= isset($libjs) ? '<script src="' . base_url('') . 'public/admin/libjs/' . $libjs . '"></script>' : '' ?>
 </body>
 
 </html>
